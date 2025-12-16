@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         composable<Routes.Login> {
-                            Text(text = "Test")
+                            Text(text = "Login")
                         }
                     }
                 }
