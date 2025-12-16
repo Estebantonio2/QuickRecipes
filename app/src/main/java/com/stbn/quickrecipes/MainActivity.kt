@@ -34,6 +34,14 @@ class MainActivity : ComponentActivity() {
                         composable<Routes.Login> {
                             Text(text = "Login")
                         }
+
+                        composable<Routes.Register> {
+
+                        }
+
+                        composable<Routes.Home> {
+
+                        }
                     }
                 }
             }
