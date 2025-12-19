@@ -3,6 +3,12 @@ package com.stbn.quickrecipes.features.auth.presentation.login.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -20,7 +26,9 @@ fun LoginTextField (
     onValueChange: (String) -> Unit,
     title: String? = null,
     placeholder: String? = null,
-    isSecret: Boolean = false
+    isSecret: Boolean = false,
+    isPasswordVisible: Boolean = false,
+    onPasswordVisibilityChange: () -> Unit = {}
 ) {
     Column(
         modifier = modifier,
@@ -42,9 +50,26 @@ fun LoginTextField (
                 }
             },
             singleLine = true,
-            visualTransformation = if (isSecret) PasswordVisualTransformation() else VisualTransformation.None,
+            visualTransformation = if (isSecret && !isPasswordVisible) PasswordVisualTransformation() else VisualTransformation.None,
             shape = RoundedCornerShape(20),
-            colors = OutlinedTextFieldDefaults.colors(unfocusedBorderColor = Color.Gray, unfocusedPlaceholderColor = Color.Gray)
+            colors = OutlinedTextFieldDefaults.colors(
+                unfocusedBorderColor = Color.Gray,
+                focusedPlaceholderColor = Color.Gray,
+                unfocusedPlaceholderColor = Color.Gray
+            ),
+            trailingIcon = {
+                if (isSecret) {
+                    IconButton(
+                        onClick = onPasswordVisibilityChange
+                    ) {
+                        Icon(
+                            imageVector = if (isPasswordVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                }
+            }
         )
     }
 }

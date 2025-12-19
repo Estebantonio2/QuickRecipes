@@ -37,6 +37,9 @@ class LoginViewModel @Inject constructor() : ViewModel() {
             is LoginAction.OnPasswordChange -> {
                 _state.update { it.copy(password = action.password) }
             }
+            LoginAction.OnPasswordVisibilityChange -> {
+                _state.update { it.copy(isPasswordVisible = !_state.value.isPasswordVisible) }
+            }
             LoginAction.OnLoginClick -> {  }
             else -> Unit
         }

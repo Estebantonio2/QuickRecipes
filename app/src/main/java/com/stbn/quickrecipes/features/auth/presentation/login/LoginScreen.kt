@@ -88,7 +88,9 @@ fun LoginScreen (
                     value = state.password,
                     placeholder = "********",
                     isSecret = true,
-                    onValueChange = { onAction(LoginAction.OnPasswordChange(it)) }
+                    onValueChange = { onAction(LoginAction.OnPasswordChange(it)) },
+                    isPasswordVisible = state.isPasswordVisible,
+                    onPasswordVisibilityChange = { onAction(LoginAction.OnPasswordVisibilityChange) }
                 )
                 Button(
                     modifier = Modifier.fillMaxWidth(0.8f),
