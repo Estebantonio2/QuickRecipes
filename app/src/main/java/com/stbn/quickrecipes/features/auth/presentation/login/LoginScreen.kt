@@ -26,7 +26,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.stbn.quickrecipes.features.auth.presentation.login.components.LoginTextField
+import com.stbn.quickrecipes.features.auth.presentation.components.AuthTextField
 
 @Composable
 fun LoginScreenRoot (
@@ -60,7 +60,7 @@ fun LoginScreen (
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Card(
-            modifier = Modifier.fillMaxHeight(0.6f).fillMaxWidth(0.8f),
+            modifier = Modifier.fillMaxHeight(0.7f).fillMaxWidth(0.9f),
             shape = RoundedCornerShape(5),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background),
             elevation = CardDefaults.cardElevation(defaultElevation = 100.dp)
@@ -77,13 +77,13 @@ fun LoginScreen (
                     tint = MaterialTheme.colorScheme.primary
                 )
                 Text("Bienvenido")
-                LoginTextField(
+                AuthTextField(
                     title = "Correo Electrónico",
                     value = state.email,
                     placeholder = "example@email.com",
                     onValueChange = { onAction(LoginAction.OnEmailChange(it)) }
                 )
-                LoginTextField(
+                AuthTextField(
                     title = "Contraseña",
                     value = state.password,
                     placeholder = "********",

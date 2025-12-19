@@ -1,7 +1,8 @@
-package com.stbn.quickrecipes.features.auth.presentation.login.components
+package com.stbn.quickrecipes.features.auth.presentation.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
@@ -20,7 +21,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun LoginTextField (
+fun AuthTextField (
     modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
@@ -31,7 +32,7 @@ fun LoginTextField (
     onPasswordVisibilityChange: () -> Unit = {}
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier.fillMaxWidth(0.8f),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         if (!title.isNullOrEmpty()) {
@@ -40,6 +41,7 @@ fun LoginTextField (
             )
         }
         OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
             value = value,
             onValueChange = onValueChange,
             placeholder = {
