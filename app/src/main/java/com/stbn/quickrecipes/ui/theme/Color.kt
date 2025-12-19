@@ -2,10 +2,8 @@ package com.stbn.quickrecipes.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
-
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+val backgroundLight = Color(0xFFdad7cd)
+val backgroundDark = Color(0xFF344e41)
+val buttonColorLight = Color(0xFF588157)
+val buttonColorDark = Color(0xFF3a5a40)
+val contrastColor = Color(0xFFce5f34)

@@ -13,6 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.stbn.quickrecipes.core.navigation.Routes
+import com.stbn.quickrecipes.features.auth.presentation.login.LoginScreenRoot
 import com.stbn.quickrecipes.ui.theme.QuickRecipesTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,11 +33,15 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         composable<Routes.Login> {
-                            Text(text = "Login")
+                            LoginScreenRoot(
+                                onRegisterClick = { navController.navigate(Routes.Register) }
+                            )
                         }
 
                         composable<Routes.Register> {
-
+                            Text(
+                                "register"
+                            )
                         }
 
                         composable<Routes.Home> {
