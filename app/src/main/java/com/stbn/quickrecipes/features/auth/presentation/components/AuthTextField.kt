@@ -14,7 +14,12 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -31,6 +36,8 @@ fun AuthTextField (
     isPasswordVisible: Boolean = false,
     onPasswordVisibilityChange: () -> Unit = {}
 ) {
+    var isFocused by remember { mutableStateOf(false) }
+
     Column(
         modifier = modifier.fillMaxWidth(0.8f),
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -41,7 +48,11 @@ fun AuthTextField (
             )
         }
         OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .onFocusChanged { focusState ->
+                    isFocused = focusState.isFocused
+            },
             value = value,
             onValueChange = onValueChange,
             placeholder = {
@@ -67,7 +78,7 @@ fun AuthTextField (
                         Icon(
                             imageVector = if (isPasswordVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary
+                            tint = if (isFocused) MaterialTheme.colorScheme.primary else Color.Gray
                         )
                     }
                 }

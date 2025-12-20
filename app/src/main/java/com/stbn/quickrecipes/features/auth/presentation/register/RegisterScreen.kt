@@ -19,24 +19,39 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.stbn.quickrecipes.features.auth.presentation.components.AuthTextField
 
 @Composable
 fun RegisterScreenRoot (
     modifier: Modifier = Modifier,
+    viewModel: RegisterViewModel = hiltViewModel(),
     onLoginClick: () -> Unit
 ) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
     RegisterScreen(
+        state = state,
+        onAction = { action ->
+            when (action) {
+                is RegisterAction.OnLoginClick -> onLoginClick()
+                else -> Unit
+            }
+            viewModel.onAction(action)
+        },
         modifier = modifier
     )
 }
 
 @Composable
 fun RegisterScreen (
+    state: RegisterState,
+    onAction: (RegisterAction) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -64,28 +79,38 @@ fun RegisterScreen (
                 Text("Crear Cuenta")
                 AuthTextField(
                     title = "Nombre",
-                    value = "",
-                    onValueChange = {}
+                    value = state.name,
+                    placeholder = "Nombre",
+                    onValueChange = { onAction(RegisterAction.OnNameChange(it)) }
                 )
                 AuthTextField(
                     title = "Correo Electrónico",
-                    value = "",
-                    onValueChange = {}
+                    value = state.email,
+                    placeholder = "example@email.com",
+                    onValueChange = { onAction(RegisterAction.OnEmailChange(it)) }
                 )
                 AuthTextField(
                     title = "Contraseña",
-                    value = "",
-                    onValueChange = {}
+                    value = state.password,
+                    placeholder = "********",
+                    isSecret = true,
+                    onValueChange = { onAction(RegisterAction.OnPasswordChange(it)) },
+                    isPasswordVisible = state.isPasswordVisible,
+                    onPasswordVisibilityChange = { onAction(RegisterAction.OnPasswordVisibilityChange) }
                 )
                 AuthTextField(
                     title = "Confirmar Contraseña",
-                    value = "",
-                    onValueChange = {}
+                    value = state.confirmPassword,
+                    placeholder = "********",
+                    isSecret = true,
+                    onValueChange = { onAction(RegisterAction.OnConfirmPasswordChange(it)) },
+                    isPasswordVisible = state.isConfirmPasswordVisible,
+                    onPasswordVisibilityChange = { onAction(RegisterAction.OnConfirmPasswordVisibilityChange) }
                 )
                 Button(
                     modifier = Modifier.fillMaxWidth(0.8f),
-                    onClick = {  },
-//                    enabled = ,
+                    onClick = { onAction(RegisterAction.OnRegisterClick) },
+                    enabled = state.canRegister,
                     shape = RoundedCornerShape(25)
                 ) {
                     Text("Crear cuenta")
@@ -95,7 +120,7 @@ fun RegisterScreen (
                         text = "¿Ya tienes cuenta? "
                     )
                     Text(
-                        modifier = Modifier.clickable {  },
+                        modifier = Modifier.clickable { onAction(RegisterAction.OnLoginClick) },
                         text = "Inicia Sesión",
                         color = MaterialTheme.colorScheme.primary,
                         textDecoration = TextDecoration.Underline
