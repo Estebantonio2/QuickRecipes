@@ -7,4 +7,6 @@ import com.stbn.quickrecipes.features.auth.domain.models.User
 interface AuthRepository {
     suspend fun login(email: String, password: String): Result<User, DataError.Network>
     suspend fun register(name: String, email: String, password: String): Result<User, DataError.Network>
+    fun getCurrentUser(): User?
+    fun logout()
 }

@@ -1,5 +1,6 @@
 package com.stbn.quickrecipes.features.auth.presentation.login
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,19 +23,48 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.stbn.quickrecipes.core.presentation.ObserveAsEvents
 import com.stbn.quickrecipes.features.auth.presentation.components.AuthTextField
 
 @Composable
 fun LoginScreenRoot (
     modifier: Modifier = Modifier,
     viewModel: LoginViewModel = hiltViewModel(),
-    onRegisterClick: () -> Unit
+    onRegisterClick: () -> Unit,
+    onLoginSuccess: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    ObserveAsEvents(viewModel.events) { event ->
+        when (event) {
+            is LoginEvent.Error -> {
+                keyboardController?.hide()
+                Toast.makeText(
+                    context,
+                    event.error.asString(context),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+            LoginEvent.LoginSuccess -> {
+                keyboardController?.hide()
+                Toast.makeText(
+                    context,
+                    "Login exitoso",
+                    Toast.LENGTH_LONG
+                ).show()
+                onLoginSuccess()
+            }
+        }
+    }
+
     LoginScreen(
         modifier = modifier,
         state = state,

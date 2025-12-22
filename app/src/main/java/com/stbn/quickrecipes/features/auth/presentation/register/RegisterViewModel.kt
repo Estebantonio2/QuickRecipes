@@ -2,15 +2,20 @@ package com.stbn.quickrecipes.features.auth.presentation.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.stbn.quickrecipes.R
+import com.stbn.quickrecipes.core.presentation.util.UiText
+import com.stbn.quickrecipes.core.presentation.util.asUiText
 import com.stbn.quickrecipes.core.util.Result
 import com.stbn.quickrecipes.features.auth.domain.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,6 +26,9 @@ class RegisterViewModel @Inject constructor(
 ) : ViewModel() {
     private val _state = MutableStateFlow(RegisterState())
     val state = _state.asStateFlow()
+
+    private val eventChannel = Channel<RegisterEvent>()
+    val events = eventChannel.receiveAsFlow()
 
     init {
         _state
@@ -67,7 +75,12 @@ class RegisterViewModel @Inject constructor(
     }
 
     private fun register() {
+        if (state.value.isRegistering) return
         viewModelScope.launch {
+            if (state.value.password != state.value.confirmPassword) {
+                eventChannel.send(RegisterEvent.Error(UiText.StringResource(R.string.error_passwords_dont_match)))
+                return@launch
+            }
             _state.update { it.copy(isRegistering = true) }
             val result = authRepository.register(
                 name = state.value.name,
@@ -77,9 +90,12 @@ class RegisterViewModel @Inject constructor(
             _state.update { it.copy(isRegistering = false) }
 
             when (result) {
-                is Result.Error -> TODO()
+                is Result.Error -> {
+                    eventChannel.send(RegisterEvent.Error(result.error.asUiText()))
+                }
                 is Result.Success -> {
-                    println("SUCCESS: ${result.data}")
+                    authRepository.logout()
+                    eventChannel.send(RegisterEvent.RegistrationSuccess)
                 }
             }
         }
