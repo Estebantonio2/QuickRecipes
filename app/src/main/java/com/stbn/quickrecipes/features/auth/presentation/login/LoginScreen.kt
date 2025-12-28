@@ -33,7 +33,7 @@ import com.stbn.quickrecipes.core.presentation.ObserveAsEvents
 import com.stbn.quickrecipes.features.auth.presentation.components.AuthTextField
 
 @Composable
-fun LoginScreenRoot (
+fun LoginScreenRoot(
     modifier: Modifier = Modifier,
     viewModel: LoginViewModel = hiltViewModel(),
     onRegisterClick: () -> Unit,
@@ -79,7 +79,7 @@ fun LoginScreenRoot (
 }
 
 @Composable
-fun LoginScreen (
+fun LoginScreen(
     modifier: Modifier = Modifier,
     state: LoginState,
     onAction: (LoginAction) -> Unit

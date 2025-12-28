@@ -76,7 +76,7 @@ fun AuthTextField (
                         onClick = onPasswordVisibilityChange
                     ) {
                         Icon(
-                            imageVector = if (isPasswordVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility,
+                            imageVector = if (isPasswordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
                             contentDescription = null,
                             tint = if (isFocused) MaterialTheme.colorScheme.primary else Color.Gray
                         )

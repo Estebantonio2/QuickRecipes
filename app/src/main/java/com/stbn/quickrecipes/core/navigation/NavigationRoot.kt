@@ -1,6 +1,5 @@
 package com.stbn.quickrecipes.core.navigation
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
@@ -10,6 +9,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.stbn.quickrecipes.features.auth.presentation.login.LoginScreenRoot
 import com.stbn.quickrecipes.features.auth.presentation.register.RegisterScreenRoot
+import com.stbn.quickrecipes.features.profile.presentation.ProfileScreenRoot
+import com.stbn.quickrecipes.features.recipes.catalog.CatalogScreenRoot
 
 @Composable
 fun NavigationRoot(
@@ -59,7 +60,7 @@ private fun NavGraphBuilder.recipesGraph(navController: NavHostController) {
         startDestination = Routes.RecipesCatalog,
     ) {
         composable<Routes.RecipesCatalog> {
-            Text(text = "Recetas")
+            CatalogScreenRoot()
         }
     }
 }
