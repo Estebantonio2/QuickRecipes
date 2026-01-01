@@ -1,6 +1,7 @@
-package com.stbn.quickrecipes.features.recipes.components
+package com.stbn.quickrecipes.features.recipes.presentation.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,22 +25,26 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
+import com.stbn.quickrecipes.features.recipes.domain.model.Recipe
 
 @Composable
 fun CatalogItem(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    recipe: Recipe,
+    onClick: (Int) -> Unit
 ) {
     Box(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(10))
             .background(MaterialTheme.colorScheme.onPrimary)
+            .clickable { onClick(recipe.id) }
     ) {
         Column(
             modifier = modifier.fillMaxWidth()
         ) {
             AsyncImage(
-                model = "https://img.spoonacular.com/recipes/638797-556x370.jpg",
+                model = recipe.imageUrl,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -48,10 +53,10 @@ fun CatalogItem(
             )
             Column(
                 modifier = Modifier.padding(vertical = 14.dp, horizontal = 10.dp),
-                verticalArrangement = Arrangement.spacedBy(5.dp)
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Text(
-                    text = "Nombre Random",
+                    text = recipe.name,
                     fontSize = 20.sp
                 )
                 Row(
@@ -63,7 +68,7 @@ fun CatalogItem(
                         contentDescription = null
                     )
                     Text(
-                        text = "Autor"
+                        text = recipe.source
                     )
                 }
             }
@@ -84,7 +89,7 @@ fun CatalogItem(
                 tint = MaterialTheme.colorScheme.primary
             )
             Text(
-                text = "25 min",
+                text = "${recipe.durationMin} min",
                 color = Color.Black
             )
         }

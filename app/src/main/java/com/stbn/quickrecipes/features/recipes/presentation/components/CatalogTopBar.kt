@@ -1,4 +1,4 @@
-package com.stbn.quickrecipes.features.recipes.components
+package com.stbn.quickrecipes.features.recipes.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun CatalogTopBar(
     modifier: Modifier = Modifier,
+    userName: String,
     onProfileClick: () -> Unit = {}
 ) {
     Row(
@@ -58,7 +59,7 @@ fun CatalogTopBar(
                     contentDescription = null
                 )
                 Text(
-                    text = "test"
+                    text = userName
                 )
             }
         }

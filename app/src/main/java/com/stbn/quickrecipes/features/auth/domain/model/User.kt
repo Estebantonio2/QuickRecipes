@@ -1,4 +1,4 @@
-package com.stbn.quickrecipes.features.auth.domain.models
+package com.stbn.quickrecipes.features.auth.domain.model
 
 data class User(
     val id: String,

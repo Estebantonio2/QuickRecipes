@@ -5,7 +5,7 @@ import com.google.firebase.auth.userProfileChangeRequest
 import com.stbn.quickrecipes.core.util.DataError
 import com.stbn.quickrecipes.core.util.Result
 import com.stbn.quickrecipes.features.auth.domain.AuthRepository
-import com.stbn.quickrecipes.features.auth.domain.models.User
+import com.stbn.quickrecipes.features.auth.domain.model.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext

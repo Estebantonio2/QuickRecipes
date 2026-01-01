@@ -10,7 +10,8 @@ import androidx.navigation.compose.navigation
 import com.stbn.quickrecipes.features.auth.presentation.login.LoginScreenRoot
 import com.stbn.quickrecipes.features.auth.presentation.register.RegisterScreenRoot
 import com.stbn.quickrecipes.features.profile.presentation.ProfileScreenRoot
-import com.stbn.quickrecipes.features.recipes.catalog.CatalogScreenRoot
+import com.stbn.quickrecipes.features.recipes.presentation.catalog.CatalogScreenRoot
+import com.stbn.quickrecipes.features.recipes.presentation.detail.DetailScreenRoot
 
 @Composable
 fun NavigationRoot(
@@ -25,6 +26,7 @@ fun NavigationRoot(
     ) {
         authGraph(navController)
         recipesGraph(navController)
+        profileGraph(navController)
     }
 }
 
@@ -46,9 +48,7 @@ private fun NavGraphBuilder.authGraph(navController: NavHostController) {
         composable<Routes.Register> {
             RegisterScreenRoot(
                 onLoginClick = {
-                    navController.navigate(Routes.Login) {
-                        popUpTo(Routes.Login) { inclusive = true }
-                    }
+                    navController.popBackStack()
                 }
             )
         }
@@ -60,7 +60,26 @@ private fun NavGraphBuilder.recipesGraph(navController: NavHostController) {
         startDestination = Routes.RecipesCatalog,
     ) {
         composable<Routes.RecipesCatalog> {
-            CatalogScreenRoot()
+            CatalogScreenRoot(
+                onProfileClick = { navController.navigate(Routes.ProfileGraph) },
+                onRecipeDetailClick = { recipeId ->
+                    navController.navigate(Routes.RecipesDetail(id = recipeId))
+                }
+            )
+        }
+
+        composable<Routes.RecipesDetail> {
+            DetailScreenRoot()
+        }
+    }
+}
+
+private fun NavGraphBuilder.profileGraph(navController: NavHostController) {
+    navigation<Routes.ProfileGraph>(
+        startDestination = Routes.ProfileMenu
+    ) {
+        composable<Routes.ProfileMenu> {
+            ProfileScreenRoot()
         }
     }
 }
