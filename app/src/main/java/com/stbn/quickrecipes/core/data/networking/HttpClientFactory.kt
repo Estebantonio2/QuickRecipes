@@ -1,6 +1,5 @@
 package com.stbn.quickrecipes.core.data.networking
 
-import com.stbn.quickrecipes.BuildConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
