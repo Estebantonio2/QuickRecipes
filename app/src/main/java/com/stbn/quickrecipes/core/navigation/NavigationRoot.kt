@@ -69,7 +69,11 @@ private fun NavGraphBuilder.recipesGraph(navController: NavHostController) {
         }
 
         composable<Routes.RecipesDetail> {
-            DetailScreenRoot()
+            DetailScreenRoot(
+                onBackClick = {
+                    navController.popBackStack()
+                }
+            )
         }
     }
 }
