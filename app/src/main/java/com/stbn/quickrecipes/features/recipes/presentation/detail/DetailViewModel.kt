@@ -6,11 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.stbn.quickrecipes.core.navigation.Routes
+import com.stbn.quickrecipes.core.presentation.util.asUiText
 import com.stbn.quickrecipes.core.util.Result
 import com.stbn.quickrecipes.features.recipes.domain.RecipeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,9 +23,11 @@ class DetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val recipeRepository: RecipeRepository
 ): ViewModel() {
-
     private val _state = MutableStateFlow(DetailState())
     val state = _state.asStateFlow()
+
+    private val eventChannel = Channel<DetailEvent>()
+    val events = eventChannel.receiveAsFlow()
 
     private val recipeId = savedStateHandle.toRoute<Routes.RecipesDetail>().id
 
@@ -39,7 +44,7 @@ class DetailViewModel @Inject constructor(
                     _state.update { it.copy(recipe = cleanResult) }
                 }
                 is Result.Error -> {
-
+                    eventChannel.send(DetailEvent.Error(result.error.asUiText()))
                 }
             }
             _state.update { it.copy(isFetchingRecipe = false) }
