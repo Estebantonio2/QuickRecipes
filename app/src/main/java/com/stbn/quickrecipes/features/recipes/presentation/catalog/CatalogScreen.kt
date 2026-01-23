@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -103,9 +104,9 @@ fun CatalogScreen(
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(MaterialTheme.colorScheme.surface)
-                        .padding(vertical = 15.dp, horizontal = 10.dp),
-                    verticalArrangement = Arrangement.spacedBy(20.dp)
+                        .background(MaterialTheme.colorScheme.surface),
+                    verticalArrangement = Arrangement.spacedBy(20.dp),
+                    contentPadding = PaddingValues(horizontal = 10.dp, vertical = 15.dp)
                 ) {
                     item {
                         Column(
