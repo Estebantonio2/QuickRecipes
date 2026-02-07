@@ -24,8 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.stbn.quickrecipes.core.presentation.ObserveAsEvents
+import com.stbn.quickrecipes.core.presentation.components.TopBar
 import com.stbn.quickrecipes.features.recipes.presentation.components.DetailItem
-import com.stbn.quickrecipes.features.recipes.presentation.components.DetailTopBar
 
 @Composable
 fun DetailScreenRoot(
@@ -51,8 +51,8 @@ fun DetailScreenRoot(
     }
 
     Column(modifier = modifier.fillMaxSize()) {
-        DetailTopBar(
-            name = state.recipe?.name ?: "",
+        TopBar(
+            title = state.recipe?.name ?: "",
             onBackClick = onBackClick
         )
         DetailScreen(

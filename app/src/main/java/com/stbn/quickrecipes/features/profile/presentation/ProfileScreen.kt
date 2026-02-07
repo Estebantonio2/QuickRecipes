@@ -1,5 +1,7 @@
 package com.stbn.quickrecipes.features.profile.presentation
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,11 +30,8 @@ fun ProfileScreen(
 //    state = ,
     onAction: (ProfileAction) -> Unit
 ) {
-    Button(
-        onClick = { onAction(ProfileAction.OnLogoutClick) }
-    ) {
-        Text(
-            text = "Logout"
-        )
-    }
+    Column(
+        modifier = modifier.fillMaxSize(),
+
+    ) { }
 }

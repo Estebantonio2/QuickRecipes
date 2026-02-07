@@ -24,8 +24,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.stbn.quickrecipes.core.presentation.ObserveAsEvents
+import com.stbn.quickrecipes.core.presentation.components.TopBar
 import com.stbn.quickrecipes.features.recipes.presentation.components.CatalogItem
-import com.stbn.quickrecipes.features.recipes.presentation.components.CatalogTopBar
 
 @Composable
 fun CatalogScreenRoot(
@@ -52,9 +52,10 @@ fun CatalogScreenRoot(
     }
 
     Column(modifier = modifier.fillMaxSize()) {
-        CatalogTopBar(
+        TopBar(
             onProfileClick = onProfileClick,
-            userName = state.userName,
+            title = "Recetas",
+            userName = state.userName
         )
         CatalogScreen(
             modifier = Modifier.weight(1f),
