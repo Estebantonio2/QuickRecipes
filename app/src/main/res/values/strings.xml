@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">QuickRecipes</string>
+    <string name="error_no_internet">No tienes conexión a internet.</string>
+    <string name="error_email_exists">Este correo ya está registrado.</string>
+    <string name="error_unauthorized">Credenciales incorrectas.</string>
+    <string name="error_server">Error en el servidor. Intenta más tarde.</string>
+    <string name="error_unknown">Ha ocurrido un error inesperado.</string>
+    <string name="error_passwords_dont_match">Las contraseñas no coinciden.</string>
 </resources>

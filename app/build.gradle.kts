@@ -1,3 +1,6 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -17,6 +20,12 @@ android {
     }
 
     defaultConfig {
+        val apiKey = gradleLocalProperties(rootDir, providers).getProperty("API_KEY") ?: ""
+        val baseUrl = gradleLocalProperties(rootDir, providers).getProperty("BASE_URL") ?: ""
+
+        buildConfigField("String", "API_KEY", "\"$apiKey\"")
+        buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
+
         applicationId = "com.stbn.quickrecipes"
         minSdk = 26
         targetSdk = 36
@@ -45,10 +54,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     kotlin.compilerOptions {
-        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
-    }
-    buildFeatures {
-        compose = true
+        jvmTarget.set(JvmTarget.JVM_17)
     }
     room {
         schemaDirectory("$projectDir/schemas")
@@ -88,10 +94,9 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
 
     implementation(libs.ktor.client.core)
-    implementation(libs.ktor.client.okhttp)
     implementation(libs.ktor.client.content.negotiation)
     implementation(libs.ktor.serialization.kotlinx.json)
-    implementation(libs.ktor.client.auth)
+    implementation(libs.ktor.client.android)
     implementation(libs.ktor.client.logging)
 
     implementation(libs.coil.compose)
