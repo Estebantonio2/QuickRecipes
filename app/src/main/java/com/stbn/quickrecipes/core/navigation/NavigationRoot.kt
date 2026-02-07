@@ -22,7 +22,7 @@ fun NavigationRoot(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = if (isLoggedIn) Routes.RecipesGraph else Routes.AuthGraph
+        startDestination = if (isLoggedIn) Routes.ProfileGraph else Routes.AuthGraph
     ) {
         authGraph(navController)
         recipesGraph(navController)
