@@ -1,5 +1,6 @@
 package com.stbn.quickrecipes.features.profile.presentation
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,23 +21,44 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.stbn.quickrecipes.core.presentation.ObserveAsEvents
 import com.stbn.quickrecipes.core.presentation.components.TopBar
 import com.stbn.quickrecipes.features.profile.presentation.components.ProfileCard
 
 @Composable
 fun ProfileScreenRoot(
     modifier: Modifier = Modifier,
+    onBackClick: () -> Unit,
+    onLogoutSuccess: () -> Unit,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    ObserveAsEvents(viewModel.events) { event ->
+        when (event) {
+            ProfileEvent.OnLogout -> {
+                keyboardController?.hide()
+                Toast.makeText(
+                    context,
+                    "Logout exitoso",
+                    Toast.LENGTH_LONG
+                ).show()
+                onLogoutSuccess()
+            }
+        }
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBar(
             title = "Mi Perfil",
-            onBackClick = {}
+            onBackClick = onBackClick
         )
         ProfileScreen(
             modifier = modifier,

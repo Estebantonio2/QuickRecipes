@@ -83,7 +83,14 @@ private fun NavGraphBuilder.profileGraph(navController: NavHostController) {
         startDestination = Routes.ProfileMenu
     ) {
         composable<Routes.ProfileMenu> {
-            ProfileScreenRoot()
+            ProfileScreenRoot(
+                onBackClick = { navController.popBackStack() },
+                onLogoutSuccess = {
+                    navController.navigate(Routes.AuthGraph){
+                        popUpTo(0) { inclusive = true }
+                    }
+                }
+            )
         }
     }
 }
