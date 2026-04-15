@@ -12,7 +12,6 @@ class MainViewModel @Inject constructor(
     val isLoggedIn: Boolean
         get() {
             val currentUser = authRepository.getCurrentUser()
-            println(currentUser)
             return currentUser != null
         }
 }
