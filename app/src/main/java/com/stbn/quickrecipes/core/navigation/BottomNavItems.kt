@@ -13,11 +13,11 @@ object BottomNavItems {
             icon = Icons.Filled.Home,
             route = Routes.RecipesGraph
         ),
-//        BottomNavItem(
-//            label = "Search",
-//            icon = Icons.Filled.Search,
-//            route = Routes.
-//        ),
+        BottomNavItem(
+            label = "Search",
+            icon = Icons.Filled.Search,
+            route = Routes.RecipesSearch
+        ),
         BottomNavItem(
             label = "Profile",
             icon = Icons.Filled.Person,
@@ -27,10 +27,7 @@ object BottomNavItems {
 }
 
 data class BottomNavItem(
-    // Text below icon
     val label: String,
-    // Icon
     val icon: ImageVector,
-    // Route to the specific screen
     val route: Routes,
 )

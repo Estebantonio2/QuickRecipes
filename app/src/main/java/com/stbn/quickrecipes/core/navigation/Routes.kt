@@ -22,6 +22,9 @@ sealed interface Routes {
     data class RecipesDetail(val id: Int): Routes
 
     @Serializable
+    data object RecipesSearch: Routes
+
+    @Serializable
     data object ProfileGraph: Routes
 
     @Serializable

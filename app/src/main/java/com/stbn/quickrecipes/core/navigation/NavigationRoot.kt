@@ -12,6 +12,7 @@ import com.stbn.quickrecipes.features.auth.presentation.register.RegisterScreenR
 import com.stbn.quickrecipes.features.profile.presentation.ProfileScreenRoot
 import com.stbn.quickrecipes.features.recipes.presentation.catalog.CatalogScreenRoot
 import com.stbn.quickrecipes.features.recipes.presentation.detail.DetailScreenRoot
+import com.stbn.quickrecipes.features.recipes.presentation.search.SearchScreenRoot
 
 @Composable
 fun NavigationRoot(
@@ -22,11 +23,15 @@ fun NavigationRoot(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = if (isLoggedIn) Routes.ProfileGraph else Routes.AuthGraph
+        startDestination = if (isLoggedIn) Routes.RecipesGraph else Routes.AuthGraph
     ) {
         authGraph(navController)
         recipesGraph(navController)
         profileGraph(navController)
+
+        composable<Routes.RecipesSearch> {
+            SearchScreenRoot()
+        }
     }
 }
 

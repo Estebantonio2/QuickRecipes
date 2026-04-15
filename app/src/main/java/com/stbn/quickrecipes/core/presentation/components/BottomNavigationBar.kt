@@ -12,6 +12,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.stbn.quickrecipes.core.navigation.BottomNavItems
@@ -19,20 +23,28 @@ import com.stbn.quickrecipes.core.navigation.BottomNavItems
 @Composable
 fun BottomNavigationBar(
     modifier: Modifier = Modifier,
-    navController: NavHostController
+    navController: NavHostController,
+    currentDestination: NavDestination?
 ) {
     NavigationBar(
-        modifier = modifier.height(75.dp),
+        modifier = modifier,
         containerColor = MaterialTheme.colorScheme.onBackground
     ) {
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination
-
         BottomNavItems.navItems.forEach { navItem ->
+            val isSelected = currentDestination?.hierarchy?.any {
+                it.hasRoute(navItem.route::class)
+            } == true
+
             NavigationBarItem(
-                selected = currentRoute == navItem.route,
+                selected = isSelected,
                 onClick = {
-                    navController.navigate(navItem.route)
+                    navController.navigate(navItem.route) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
                 },
                 icon = {
                     Icon(imageVector = navItem.icon, contentDescription = navItem.label)
