@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
+import com.stbn.quickrecipes.features.recipes.domain.model.RecipeDetail
 
 @Composable
 fun DetailItem(
@@ -37,7 +38,7 @@ fun DetailItem(
     description: String ?= null,
     subtitles: List<Pair<ImageVector, String>> ?= null,
     isListed: Boolean = false,
-    list: List<String> ?= null
+    recipe: RecipeDetail ?= null
 ) {
     Card(
         modifier = modifier.fillMaxWidth(0.9f),
@@ -85,13 +86,11 @@ fun DetailItem(
                         )
                     }
                 }
-
                 if (subtitles != null) {
                     Subtitles(
                         subtitles = subtitles
                     )
                 }
-
                 if (description != null) {
                     Text(
                         text = description,
@@ -99,11 +98,10 @@ fun DetailItem(
                         letterSpacing = 0.sp
                     )
                 }
-
-                if (list != null) {
+                if (recipe != null) {
                     IngredientsList(
                         isListed = isListed,
-                        list = list
+                        recipe = recipe
                     )
                 }
             }
@@ -115,22 +113,27 @@ fun DetailItem(
 private fun IngredientsList(
     modifier: Modifier = Modifier,
     isListed: Boolean,
-    list: List<String>
+    recipe: RecipeDetail
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically)
     ) {
-        list.forEachIndexed { index, text ->
-            if (!isListed) {
-                BulletItem(
-                    text = text
-                )
-            } else {
-                ListedItem(
-                    text = text,
-                    index = (index + 1).toString()
-                )
+        when {
+            !isListed -> {
+                recipe.ingredients.forEach { ingredient ->
+                    BulletItem(
+                        text = ingredient.description
+                    )
+                }
+            }
+            else -> {
+                recipe.steps.forEachIndexed { index, step ->
+                    ListedItem(
+                        index = (index + 1).toString(),
+                        text = step.description
+                    )
+                }
             }
         }
     }

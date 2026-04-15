@@ -9,22 +9,28 @@ data class RecipeDetailDto(
     val title: String,
     val readyInMinutes: Int,
     val sourceName: String,
-    val extendedIngredients: List<Ingredient>,
+    val extendedIngredients: List<IngredientDto>,
     val summary: String,
-    val analyzedInstructions: List<InstructionsContainer>
+    val analyzedInstructions: List<StepsContainer>
 )
 
 @Serializable
-data class Ingredient(
+data class IngredientDto(
+    val id: Int,
+    val image: String,
+    val name: String,
+    val amount: Double,
+    val unit: String,
     val original: String
 )
 
 @Serializable
-data class InstructionsContainer(
-    val steps: List<InstructionStep>
+data class StepsContainer(
+    val steps: List<StepDto>
 )
 
 @Serializable
-data class InstructionStep(
+data class StepDto(
+    val number: Int,
     val step: String
 )
