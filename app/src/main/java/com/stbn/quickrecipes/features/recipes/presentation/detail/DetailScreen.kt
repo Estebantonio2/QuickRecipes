@@ -103,14 +103,14 @@ fun DetailScreen(
                     DetailItem(
                         titleIcon = Icons.Outlined.Dining,
                         title = "Ingredientes",
-                        list = state.recipe.ingredients
+                        recipe = state.recipe
                     )
                 }
                 item {
                     DetailItem(
                         title = "Pasos de Preparación",
                         isListed = true,
-                        list = state.recipe.steps
+                        recipe = state.recipe
                     )
                 }
             }

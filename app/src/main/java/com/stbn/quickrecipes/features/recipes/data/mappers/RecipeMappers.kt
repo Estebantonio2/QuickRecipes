@@ -1,9 +1,13 @@
 package com.stbn.quickrecipes.features.recipes.data.mappers
 
+import com.stbn.quickrecipes.features.recipes.data.remote.dto.IngredientDto
 import com.stbn.quickrecipes.features.recipes.data.remote.dto.RecipeDetailDto
 import com.stbn.quickrecipes.features.recipes.data.remote.dto.RecipeDto
+import com.stbn.quickrecipes.features.recipes.data.remote.dto.StepDto
+import com.stbn.quickrecipes.features.recipes.domain.model.Ingredient
 import com.stbn.quickrecipes.features.recipes.domain.model.Recipe
 import com.stbn.quickrecipes.features.recipes.domain.model.RecipeDetail
+import com.stbn.quickrecipes.features.recipes.domain.model.Step
 
 fun RecipeDto.toDomain(): Recipe {
     return Recipe(
@@ -16,14 +20,6 @@ fun RecipeDto.toDomain(): Recipe {
 }
 
 fun RecipeDetailDto.toDomain(): RecipeDetail {
-    val ingredients = extendedIngredients.map { ingredient ->
-        ingredient.original
-    }
-    val steps = analyzedInstructions.map { stepsContainer ->
-        stepsContainer.steps.map { step ->
-            step.step
-        }
-    }.flatten()
     return RecipeDetail(
         id = id,
         imageUrl = image,
@@ -31,7 +27,31 @@ fun RecipeDetailDto.toDomain(): RecipeDetail {
         durationMin = readyInMinutes,
         source = sourceName,
         description = summary,
-        ingredients = ingredients,
-        steps = steps,
+        ingredients = extendedIngredients.map { ingredientDto ->
+            ingredientDto.toDomain()
+        },
+        steps = analyzedInstructions.flatMap {
+            it.steps.map { stepDto ->
+                stepDto.toDomain()
+            }
+        },
+    )
+}
+
+fun IngredientDto.toDomain(): Ingredient {
+    return Ingredient(
+        id = id,
+        image = image,
+        name = name,
+        amount = amount,
+        unit = unit,
+        description = original
+    )
+}
+
+fun StepDto.toDomain(): Step {
+    return Step(
+        number = number,
+        description = step
     )
 }
