@@ -68,7 +68,7 @@ fun CatalogItem(
                         contentDescription = null
                     )
                     Text(
-                        text = recipe.source
+                        text = recipe.source ?: ""
                     )
                 }
             }

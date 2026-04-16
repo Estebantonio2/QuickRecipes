@@ -7,6 +7,7 @@ import com.stbn.quickrecipes.core.util.map
 import com.stbn.quickrecipes.features.recipes.data.mappers.toDomain
 import com.stbn.quickrecipes.features.recipes.data.remote.dto.RecipeDetailDto
 import com.stbn.quickrecipes.features.recipes.data.remote.dto.RecipeResponse
+import com.stbn.quickrecipes.features.recipes.data.remote.dto.RecipeSearchResponse
 import com.stbn.quickrecipes.features.recipes.domain.RecipeRepository
 import com.stbn.quickrecipes.features.recipes.domain.model.Recipe
 import com.stbn.quickrecipes.features.recipes.domain.model.RecipeDetail
@@ -35,6 +36,23 @@ class RecipeRepositoryImpl @Inject constructor (
                 route = "/$id/information"
             ).map { recipeDetailDto ->
                 recipeDetailDto.toDomain()
+            }
+        }
+    }
+
+    override suspend fun fetchRecipesSearch(
+        search: String,
+        number: Int
+    ): Result<List<Recipe>, DataError.Network> {
+        return withContext(Dispatchers.IO) {
+            httpClient.get<RecipeSearchResponse>(
+                route = "/complexSearch",
+                queryParameters = mapOf(
+                    "query" to search,
+                    "number" to number
+                )
+            ).map { response ->
+                response.results.map { it.toDomain() }
             }
         }
     }

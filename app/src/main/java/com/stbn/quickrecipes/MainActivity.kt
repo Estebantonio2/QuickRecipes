@@ -10,12 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavDestination.Companion.hasRoute
-import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.stbn.quickrecipes.core.navigation.NavigationRoot
-import com.stbn.quickrecipes.core.navigation.Routes
 import com.stbn.quickrecipes.core.presentation.components.BottomNavigationBar
 import com.stbn.quickrecipes.ui.theme.QuickRecipesTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,14 +31,11 @@ class MainActivity : ComponentActivity() {
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
 
-                val showBottomBar = currentDestination?.hierarchy?.any {
-                    it.hasRoute(Routes.AuthGraph::class)
-                } == false
-
                 Scaffold(
+//                    containerColor = MaterialTheme.colorScheme.background,
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = {
-                        if (showBottomBar) {
+                        if (mainViewModel.isLoggedIn) {
                             BottomNavigationBar(
                                 navController = navController,
                                 currentDestination = currentDestination,

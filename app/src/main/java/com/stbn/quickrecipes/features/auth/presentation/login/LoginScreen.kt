@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -16,6 +17,7 @@ import androidx.compose.material.icons.filled.Fastfood
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextDecoration
@@ -85,7 +88,7 @@ fun LoginScreen(
     onAction: (LoginAction) -> Unit
 ) {
     Column(
-        modifier = modifier.fillMaxSize().background(MaterialTheme.colorScheme.onPrimary),
+        modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -125,10 +128,20 @@ fun LoginScreen(
                 Button(
                     modifier = Modifier.fillMaxWidth(0.8f),
                     onClick = { onAction(LoginAction.OnLoginClick) },
-                    enabled = state.canLogin,
+                    enabled = state.canLogin && !state.isLoggingIn,
                     shape = RoundedCornerShape(25)
                 ) {
-                    Text("Iniciar Sesión")
+                    if (state.isLoggingIn) {
+                        Box(contentAlignment = Alignment.Center) {
+                            CircularProgressIndicator(
+                                color = Color.White,
+                                modifier = Modifier.size(24.dp),
+                                strokeWidth = 3.dp
+                            )
+                        }
+                    } else {
+                        Text("Iniciar Sesión")
+                    }
                 }
                 Row {
                     Text(

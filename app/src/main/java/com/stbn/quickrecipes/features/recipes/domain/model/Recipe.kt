@@ -4,6 +4,6 @@ data class Recipe(
     val id: Int,
     val imageUrl: String,
     val name: String,
-    val durationMin: Int,
-    val source: String
+    val durationMin: Int? = null,
+    val source: String? = null
 )

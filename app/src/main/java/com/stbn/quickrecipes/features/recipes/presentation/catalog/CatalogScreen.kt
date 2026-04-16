@@ -31,7 +31,6 @@ import com.stbn.quickrecipes.features.recipes.presentation.components.CatalogIte
 fun CatalogScreenRoot(
     modifier: Modifier = Modifier,
     viewModel: CatalogViewModel = hiltViewModel(),
-    onProfileClick: () -> Unit,
     onRecipeDetailClick: (Int) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -53,9 +52,7 @@ fun CatalogScreenRoot(
 
     Column(modifier = modifier.fillMaxSize()) {
         TopBar(
-            onProfileClick = onProfileClick,
-            title = "Recetas",
-            userName = state.userName
+            title = "Recetas"
         )
         CatalogScreen(
             modifier = Modifier.weight(1f),

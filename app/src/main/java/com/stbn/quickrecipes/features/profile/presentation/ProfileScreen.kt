@@ -33,7 +33,6 @@ import com.stbn.quickrecipes.features.profile.presentation.components.ProfileCar
 @Composable
 fun ProfileScreenRoot(
     modifier: Modifier = Modifier,
-    onBackClick: () -> Unit,
     onLogoutSuccess: () -> Unit,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
@@ -57,8 +56,7 @@ fun ProfileScreenRoot(
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBar(
-            title = "Mi Perfil",
-            onBackClick = onBackClick
+            title = "Mi Perfil"
         )
         ProfileScreen(
             modifier = modifier,

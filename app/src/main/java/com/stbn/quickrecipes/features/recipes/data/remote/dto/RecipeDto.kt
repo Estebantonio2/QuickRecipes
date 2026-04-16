@@ -7,6 +7,6 @@ data class RecipeDto(
     val id: Int,
     val image: String,
     val title: String,
-    val readyInMinutes: Int,
-    val sourceName: String
+    val readyInMinutes: Int? = null,
+    val sourceName: String? = null
 )

@@ -23,7 +23,7 @@ fun NavigationRoot(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = if (isLoggedIn) Routes.RecipesGraph else Routes.AuthGraph
+        startDestination = if (isLoggedIn) Routes.RecipesSearch else Routes.AuthGraph
     ) {
         authGraph(navController)
         recipesGraph(navController)
@@ -66,7 +66,6 @@ private fun NavGraphBuilder.recipesGraph(navController: NavHostController) {
     ) {
         composable<Routes.RecipesCatalog> {
             CatalogScreenRoot(
-                onProfileClick = { navController.navigate(Routes.ProfileGraph) },
                 onRecipeDetailClick = { recipeId ->
                     navController.navigate(Routes.RecipesDetail(id = recipeId))
                 }
@@ -89,7 +88,6 @@ private fun NavGraphBuilder.profileGraph(navController: NavHostController) {
     ) {
         composable<Routes.ProfileMenu> {
             ProfileScreenRoot(
-                onBackClick = { navController.popBackStack() },
                 onLogoutSuccess = {
                     navController.navigate(Routes.AuthGraph){
                         popUpTo(0) { inclusive = true }
