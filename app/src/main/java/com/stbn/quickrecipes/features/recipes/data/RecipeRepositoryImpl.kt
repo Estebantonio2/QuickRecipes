@@ -41,16 +41,23 @@ class RecipeRepositoryImpl @Inject constructor (
     }
 
     override suspend fun fetchRecipesSearch(
-        search: String,
+        search: String?,
+        cuisines: Set<String>?,
         number: Int
     ): Result<List<Recipe>, DataError.Network> {
+        val parameters = buildMap {
+            put("number", number)
+            if (!search.isNullOrBlank()) {
+                put("query", search)
+            }
+            if (!cuisines.isNullOrEmpty()) {
+                put("cuisine", cuisines.joinToString(","))
+            }
+        }
         return withContext(Dispatchers.IO) {
             httpClient.get<RecipeSearchResponse>(
                 route = "/complexSearch",
-                queryParameters = mapOf(
-                    "query" to search,
-                    "number" to number
-                )
+                queryParameters = parameters
             ).map { response ->
                 response.results.map { it.toDomain() }
             }

@@ -59,39 +59,43 @@ fun CatalogItem(
                     text = recipe.name,
                     fontSize = 20.sp
                 )
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.PersonOutline,
-                        contentDescription = null
-                    )
-                    Text(
-                        text = recipe.source ?: ""
-                    )
+                if (!recipe.source.isNullOrBlank()) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.PersonOutline,
+                            contentDescription = null
+                        )
+                        Text(
+                            text = recipe.source
+                        )
+                    }
                 }
             }
         }
-        Row(
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(8.dp)
-                .clip(RoundedCornerShape(50))
-                .background(Color.LightGray.copy(alpha = 0.7f))
-                .padding(vertical = 4.dp, horizontal = 6.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(5.dp)
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.AccessTime,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary
-            )
-            Text(
-                text = "${recipe.durationMin} min",
-                color = Color.Black
-            )
+        if (recipe.durationMin != null) {
+            Row(
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(8.dp)
+                    .clip(RoundedCornerShape(50))
+                    .background(Color.LightGray.copy(alpha = 0.7f))
+                    .padding(vertical = 4.dp, horizontal = 6.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(5.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.AccessTime,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary
+                )
+                Text(
+                    text = "${recipe.durationMin} min",
+                    color = Color.Black
+                )
+            }
         }
     }
 }

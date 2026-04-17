@@ -8,5 +8,5 @@ import com.stbn.quickrecipes.features.recipes.domain.model.RecipeDetail
 interface RecipeRepository {
     suspend fun fetchRecipes(number: Int = 5): Result<List<Recipe>, DataError.Network>
     suspend fun fetchRecipeDetail(id: Int): Result<RecipeDetail, DataError.Network>
-    suspend fun fetchRecipesSearch(search: String, number: Int = 10): Result<List<Recipe>, DataError.Network>
+    suspend fun fetchRecipesSearch(search: String? = null, cuisines: Set<String>? = null, number: Int = 15): Result<List<Recipe>, DataError.Network>
 }
