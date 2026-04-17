@@ -30,7 +30,11 @@ fun NavigationRoot(
         profileGraph(navController)
 
         composable<Routes.RecipesSearch> {
-            SearchScreenRoot()
+            SearchScreenRoot(
+                onRecipeDetailClick = { recipeId ->
+                    navController.navigate(Routes.RecipesDetail(id = recipeId))
+                }
+            )
         }
     }
 }

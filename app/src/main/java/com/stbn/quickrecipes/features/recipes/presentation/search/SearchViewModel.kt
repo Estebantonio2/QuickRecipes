@@ -42,9 +42,6 @@ class SearchViewModel @Inject constructor(
 
     fun onAction(action: SearchAction) {
         when (action) {
-            is SearchAction.OnRecipeClick -> {
-                // ruta hacia detalle de receta
-            }
             is SearchAction.OnSearchChange -> {
                 _state.update { it.copy(search = action.search) }
             }
@@ -60,6 +57,7 @@ class SearchViewModel @Inject constructor(
             SearchAction.OnClearCuisines -> {
                 _state.update { it.copy(cuisines = emptySet()) }
             }
+            else -> Unit
         }
     }
 
@@ -95,7 +93,7 @@ class SearchViewModel @Inject constructor(
     }
 
     private suspend fun searchRecipes(search: String, cuisines: Set<String>) {
-        _state.update { it.copy(isLoading = true) }
+        _state.update { it.copy(isLoading = true, recipesResult = emptyList()) }
         try {
             val searchParam = search.ifBlank { null }
             val cuisinesParam = cuisines.ifEmpty { null }

@@ -47,6 +47,7 @@ import com.stbn.quickrecipes.features.recipes.presentation.search.components.Rec
 @Composable
 fun SearchScreenRoot(
     modifier: Modifier = Modifier,
+    onRecipeDetailClick: (Int) -> Unit,
     viewModel: SearchViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -75,6 +76,7 @@ fun SearchScreenRoot(
             state = state,
             onAction = { action ->
             when (action) {
+                is SearchAction.OnRecipeClick -> onRecipeDetailClick(action.id)
                 else -> Unit
             }
                 viewModel.onAction(action)
